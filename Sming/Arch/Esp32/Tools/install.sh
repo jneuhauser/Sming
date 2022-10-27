@@ -10,7 +10,6 @@ PACKAGES=(\
     dfu-util \
     flex \
     gperf \
-    ninja-build \
     )
 
 case $DIST in
@@ -18,12 +17,20 @@ case $DIST in
         PACKAGES+=(\
             libffi-dev \
             libssl-dev \
+            ninja-build \
             )
         ;;
 
     fedora)
         PACKAGES+=(\
             libffi-devel \
+            ninja-build \
+            )
+        ;;
+    arch)
+        PACKAGES+=(\
+            libffi \
+            ninja \
             )
         ;;
 esac
