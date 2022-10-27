@@ -106,6 +106,7 @@ void CommandHandler::procesStatusCommand(String commandLine, CommandOutput* comm
 	commandOutput->print(_F("Time = "));
 	commandOutput->print(SystemClock.getSystemTimeString());
 	commandOutput->println();
+	commandOutput->printf(_F("Free Heap : %lu\r\n"), system_get_free_heap_size());
 	commandOutput->printf(_F("System Start Reason : %d\r\n"), system_get_rst_info()->reason);
 }
 
