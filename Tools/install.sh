@@ -5,6 +5,8 @@
 #    . /opt/sming/Tools/install.sh
 #
 
+set -x
+
 [ "$0" = "$BASH_SOURCE" ]; sourced=$?
 
 inst_host=0
@@ -82,6 +84,9 @@ if [ -n "$(command -v apt)" ]; then
 elif [ -n "$(command -v dnf)" ]; then
     DIST=fedora
     PKG_INSTALL="sudo dnf install -y"
+elif [ -n "$(command -v pacman)" ]; then
+    DIST=arch
+    PKG_INSTALL="sudo pacman -S --noconfirm"
 else
     echo "Unsupported distribution"
     if [ $sourced = 1 ]; then
@@ -126,6 +131,8 @@ else
                 $EXTRA_PACKAGES
 
             $PKG_INSTALL clang-format-8 || printf "\nWARNING: Failed to install optional clang-format-8.\n\n"
+
+            sudo update-alternatives --install /usr/bin/python python /usr/bin/python3 100
             ;;
 
         fedora)
@@ -145,11 +152,26 @@ else
                 sed \
                 unzip \
                 wget
+            
+            sudo update-alternatives --install /usr/bin/python python /usr/bin/python3 100
+            ;;
+
+        arch)
+            $PKG_INSTALL \
+                cmake \
+            	curl \
+            	git \
+            	make \
+                ninja \
+                unzip \
+                gcc \
+            	python \
+            	python-pip \
+            	python-setuptools \
+                wget
             ;;
 
     esac
-
-    sudo update-alternatives --install /usr/bin/python python /usr/bin/python3 100
 
 fi
 
