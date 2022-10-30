@@ -8,14 +8,14 @@
 #pragma once
 
 #include <Stream.h>
-#include <Print.h>
+#include <Data/Stream/ReadWriteStream.h>
 
 #ifndef DISABLE_NETWORK
 #include <Network/TcpClient.h>
 #include <Network/Http/Websocket/WebsocketConnection.h>
 #endif
 
-class CommandOutput : public Print
+class CommandOutput : public ReadWriteStream
 {
 public:
 #ifndef DISABLE_NETWORK
@@ -33,6 +33,11 @@ public:
 	virtual ~CommandOutput();
 
 	size_t write(uint8_t outChar);
+	size_t write(const uint8_t* buffer, size_t size);
+
+	
+	uint16_t readMemoryBlock(char* data, int bufSize) { return 0; };
+	bool isFinished() { return true; };
 
 #ifndef DISABLE_NETWORK
 	TcpClient* outputTcpClient = nullptr;
